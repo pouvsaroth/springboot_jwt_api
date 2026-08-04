@@ -1,6 +1,6 @@
 package com.dinsaren.springbootjwtapi.models.school;
-import com.dinsaren.springbootjwtapi.models.BaseEntity;
 
+import com.dinsaren.springbootjwtapi.models.BaseEntity;
 import com.dinsaren.springbootjwtapi.models.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "teachers")
+@Table(name = "teachers", schema = "school")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Teacher extends BaseEntity {

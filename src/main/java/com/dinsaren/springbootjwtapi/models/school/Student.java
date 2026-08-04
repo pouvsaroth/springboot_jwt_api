@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "students")
+@Table(name = "students",schema = "school")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Student extends BaseEntity {

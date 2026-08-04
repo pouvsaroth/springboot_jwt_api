@@ -64,9 +64,9 @@ public class StudentServiceImpl implements StudentService {
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhone());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode("123456"));
 
-        user.setStatus("A");
+        user.setStatus("ACT");
         user.setVerifyEmail("Y");
         user.setChangePassword("N");
 
@@ -112,21 +112,74 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentRes update(Integer id, StudentReq request) {
-        return null;
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found."));
+
+        User user = student.getUser();
+
+        // Email validation
+        if (!user.getEmail().equals(request.getEmail())
+                && userRepository.existsByEmailAndStatus(request.getEmail(), "ACT")) {
+
+            throw new RuntimeException("Email already exists.");
+        }
+
+        // Phone validation
+        if (!user.getPhoneNumber().equals(request.getPhone())
+                && userRepository.existsByPhoneNumberAndStatus(request.getPhone(), "ACT")) {
+
+            throw new RuntimeException("Phone number already exists.");
+        }
+
+        // Update User
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhone());
+
+        userRepository.save(user);
+
+        // Update Student
+        student.setFirstName(request.getFirstName());
+        student.setLastName(request.getLastName());
+        student.setGender(request.getGender());
+        student.setDateOfBirth(request.getDateOfBirth());
+        student.setPhone(request.getPhone());
+        student.setAddress(request.getAddress());
+        student.setPhoto(request.getPhoto());
+
+        studentRepository.save(student);
+
+        return StudentMapper.toResponse(student);
     }
 
     @Override
     public StudentRes findById(Integer id) {
-        return null;
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found."));
+
+        return StudentMapper.toResponse(student);
     }
 
     @Override
     public List<StudentRes> findAll() {
-        return List.of();
+        return studentRepository.findAll()
+                .stream()
+                .map(StudentMapper::toResponse)
+                .toList();
     }
 
     @Override
     public void delete(Integer id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found."));
 
+        User user = student.getUser();
+
+        user.setStatus("DEL");
+        userRepository.save(user);
+
+        student.setIsActive(false);
+        studentRepository.save(student);
     }
 }
