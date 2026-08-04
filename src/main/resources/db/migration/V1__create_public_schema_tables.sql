@@ -148,138 +148,57 @@ CREATE TABLE IF NOT EXISTS image_details (
     updated_at         TIMESTAMP,
     updated_by         VARCHAR(255)
 );
+-- ============================================================
+-- School schema
+-- ============================================================
+-- ============================================================
+-- students
+-- ============================================================
+CREATE TABLE IF NOT EXISTS school.students (
+                                        id              SERIAL PRIMARY KEY,
+                                        user_id         INT UNIQUE,
+                                        first_name      VARCHAR(100),
+    last_name       VARCHAR(100),
+    gender          VARCHAR(20),
+    date_of_birth   DATE,
+    phone           VARCHAR(20),
+    address         TEXT,
+    photo           VARCHAR(255),
+    is_active       BOOLEAN DEFAULT TRUE,
+    created_at      TIMESTAMP,
+    created_by      VARCHAR(255),
+    updated_at      TIMESTAMP,
+    updated_by      VARCHAR(255),
+
+    CONSTRAINT fk_student_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    );
 
 -- ============================================================
--- product_categories
+-- teachers
 -- ============================================================
-CREATE TABLE IF NOT EXISTS product_categories (
-    id         SERIAL PRIMARY KEY,
-    name       VARCHAR(255),
-    created_at TIMESTAMP,
-    created_by VARCHAR(255),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(255)
-);
+CREATE TABLE IF NOT EXISTS school.teachers (
+                                        id              SERIAL PRIMARY KEY,
+                                        user_id         INT UNIQUE,
+                                        first_name      VARCHAR(100),
+    last_name       VARCHAR(100),
+    gender          VARCHAR(20),
+    date_of_birth   DATE,
+    phone           VARCHAR(20),
+    address         TEXT,
+    photo           VARCHAR(255),
+    is_active       BOOLEAN DEFAULT TRUE,
+    created_at      TIMESTAMP,
+    created_by      VARCHAR(255),
+    updated_at      TIMESTAMP,
+    updated_by      VARCHAR(255),
 
--- ============================================================
--- products
--- ============================================================
-CREATE TABLE IF NOT EXISTS products (
-    id             SERIAL PRIMARY KEY,
-    name           VARCHAR(255),
-    product_code   VARCHAR(255),
-    category_id    INT,
-    price          DOUBLE PRECISION,
-    cost           DOUBLE PRECISION,
-    stock_quantity DOUBLE PRECISION,
-    description    VARCHAR(255),
-    status         VARCHAR(255),
-    created_at     TIMESTAMP,
-    created_by     VARCHAR(255),
-    updated_at     TIMESTAMP,
-    updated_by     VARCHAR(255),
-    CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES product_categories (id)
-);
+    CONSTRAINT fk_teacher_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    );
 
--- ============================================================
--- Hotel schema
--- ============================================================
-CREATE SCHEMA IF NOT EXISTS hotel;
 
-CREATE TABLE IF NOT EXISTS hotel.category_hotel (
-    id         SERIAL PRIMARY KEY,
-    name       VARCHAR(255),
-    status     VARCHAR(3),
-    created_at TIMESTAMP,
-    created_by VARCHAR(255),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(255)
-);
 
-CREATE TABLE IF NOT EXISTS hotel.hotel (
-    id                SERIAL PRIMARY KEY,
-    user_id           INT,
-    image_url         VARCHAR(255),
-    name              VARCHAR(255),
-    decription        VARCHAR(255),
-    phone             VARCHAR(22),
-    email             VARCHAR(22),
-    status            VARCHAR(3),
-    category_hotel_id INT,
-    created_at        TIMESTAMP,
-    created_by        VARCHAR(255),
-    updated_at        TIMESTAMP,
-    updated_by        VARCHAR(255),
-    CONSTRAINT fk_hotel_category FOREIGN KEY (category_hotel_id) REFERENCES hotel.category_hotel (id)
-);
 
-CREATE TABLE IF NOT EXISTS hotel.floor (
-    id         SERIAL PRIMARY KEY,
-    hotel_id   INT,
-    number_no  VARCHAR(255),
-    decription VARCHAR(255),
-    status     VARCHAR(3),
-    created_at TIMESTAMP,
-    created_by VARCHAR(255),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(255),
-    CONSTRAINT fk_floor_hotel FOREIGN KEY (hotel_id) REFERENCES hotel.hotel (id)
-);
-
-CREATE TABLE IF NOT EXISTS hotel.room (
-    id         SERIAL PRIMARY KEY,
-    floor_id   INT,
-    number_no  VARCHAR(255),
-    decription VARCHAR(255),
-    price      NUMERIC(12, 4),
-    status     VARCHAR(3),
-    created_at TIMESTAMP,
-    created_by VARCHAR(255),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(255),
-    CONSTRAINT fk_room_floor FOREIGN KEY (floor_id) REFERENCES hotel.floor (id)
-);
-
-CREATE TABLE IF NOT EXISTS hotel.customer (
-    id         SERIAL PRIMARY KEY,
-    name       VARCHAR(255),
-    phone      VARCHAR(255),
-    email      VARCHAR(255),
-    status     VARCHAR(3),
-    created_at TIMESTAMP,
-    created_by VARCHAR(255),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(255)
-);
-
-CREATE TABLE IF NOT EXISTS hotel.book_room (
-    id            SERIAL PRIMARY KEY,
-    hotel_id      INT,
-    customer_id   INT,
-    date          TIMESTAMP,
-    checkin_date  TIMESTAMP,
-    checkout_date TIMESTAMP,
-    total_price   NUMERIC(12, 4),
-    status        VARCHAR(3),
-    created_at    TIMESTAMP,
-    created_by    VARCHAR(255),
-    updated_at    TIMESTAMP,
-    updated_by    VARCHAR(255),
-    CONSTRAINT fk_book_room_hotel    FOREIGN KEY (hotel_id)    REFERENCES hotel.hotel (id),
-    CONSTRAINT fk_book_room_customer FOREIGN KEY (customer_id) REFERENCES hotel.customer (id)
-);
-
-CREATE TABLE IF NOT EXISTS hotel.book_room_item (
-    id           SERIAL PRIMARY KEY,
-    book_room_id INT,
-    room_id      INT,
-    price        NUMERIC(12, 4),
-    qty          NUMERIC(12, 4),
-    status       VARCHAR(3),
-    created_at   TIMESTAMP,
-    created_by   VARCHAR(255),
-    updated_at   TIMESTAMP,
-    updated_by   VARCHAR(255),
-    CONSTRAINT fk_book_room_item_book_room FOREIGN KEY (book_room_id) REFERENCES hotel.book_room (id),
-    CONSTRAINT fk_book_room_item_room      FOREIGN KEY (room_id)      REFERENCES hotel.room (id)
-);

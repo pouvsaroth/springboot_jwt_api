@@ -112,9 +112,6 @@ public class UserManagementController {
             User user = new User(req.getUsername(), req.getEmail(), encoder.encode(req.getPassword()), req.getPhoneNumber());
             Set<Role> roles = new HashSet<>();
             Role role = null;
-            if (req.getRole().equals(UserRole.ROLE_USER) || req.getRole().equals("USER")) {
-                role = roleRepository.findByName(UserRole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            }
             if (req.getRole().equals(UserRole.ROLE_ADMIN) || req.getRole().equals("ADMIN")) {
                 role = roleRepository.findByName(UserRole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             }
@@ -180,9 +177,6 @@ public class UserManagementController {
             user.setLastName(req.getLastName());
             Set<Role> roles = new HashSet<>();
             Role role = null;
-            if (req.getRole().equals(UserRole.ROLE_USER) || req.getRole().equals("USER")) {
-                role = roleRepository.findByName(UserRole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            }
             if (req.getRole().equals(UserRole.ROLE_ADMIN) || req.getRole().equals("ADMIN")) {
                 role = roleRepository.findByName(UserRole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             }
