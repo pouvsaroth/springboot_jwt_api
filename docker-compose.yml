@@ -4,7 +4,7 @@ services:
     container_name: web-content-management-api
     build: .
     ports:
-      - "30033:30033"
+      - "8090:8090"
     restart: always
     volumes:
       - /opt/projects/teach/upload/images:/opt/projects/teach/upload/images

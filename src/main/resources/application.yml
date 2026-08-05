@@ -37,7 +37,7 @@ spring:
       path: /image/**
 
 server:
-  port: 30033
+  port: 8090
 
 post:
   free:
