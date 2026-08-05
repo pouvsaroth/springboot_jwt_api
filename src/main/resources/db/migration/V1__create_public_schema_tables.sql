@@ -17,15 +17,9 @@ CREATE TABLE IF NOT EXISTS roles (
     updated_by VARCHAR(255)
 );
 
-INSERT INTO roles (name) SELECT 'ROLE_CUSTOMER' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_CUSTOMER');
-INSERT INTO roles (name) SELECT 'ROLE_USER'     WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_USER');
-INSERT INTO roles (name) SELECT 'ROLE_MODERATOR'WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_MODERATOR');
-INSERT INTO roles (name) SELECT 'ROLE_ADMIN'    WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_ADMIN');
-INSERT INTO roles (name) SELECT 'ROLE_SHOP'     WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_SHOP');
-INSERT INTO roles (name) SELECT 'ROLE_CASHIER'  WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_CASHIER');
-INSERT INTO roles (name) SELECT 'ROLE_MERCHANT' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_MERCHANT');
-INSERT INTO roles (name) SELECT 'ROLE_CREATOR'  WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_CREATOR');
-INSERT INTO roles (name) SELECT 'ROLE_REVIEWER' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_REVIEWER');
+INSERT INTO roles (name) SELECT 'ROLE_ADMIN' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_ADMIN');
+INSERT INTO roles (name) SELECT 'ROLE_TEACHER'     WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_TEACHER');
+INSERT INTO roles (name) SELECT 'ROLE_STUDENT'WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ROLE_STUDENT');
 
 -- ============================================================
 -- users
@@ -156,9 +150,9 @@ CREATE TABLE IF NOT EXISTS image_details (
 -- students
 -- ============================================================
 CREATE TABLE IF NOT EXISTS school.students (
-                                        id              SERIAL PRIMARY KEY,
-                                        user_id         INT UNIQUE,
-                                        first_name      VARCHAR(100),
+    id              SERIAL PRIMARY KEY,
+    user_id         INT UNIQUE,
+    first_name      VARCHAR(100),
     last_name       VARCHAR(100),
     gender          VARCHAR(20),
     date_of_birth   DATE,
@@ -180,9 +174,9 @@ CREATE TABLE IF NOT EXISTS school.students (
 -- teachers
 -- ============================================================
 CREATE TABLE IF NOT EXISTS school.teachers (
-                                        id              SERIAL PRIMARY KEY,
-                                        user_id         INT UNIQUE,
-                                        first_name      VARCHAR(100),
+    id              SERIAL PRIMARY KEY,
+    user_id         INT UNIQUE,
+    first_name      VARCHAR(100),
     last_name       VARCHAR(100),
     gender          VARCHAR(20),
     date_of_birth   DATE,
