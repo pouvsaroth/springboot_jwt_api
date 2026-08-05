@@ -1,14 +1,40 @@
-version: '3'
+version: "3.9"
+
 services:
-  web-content-api:
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: school_db
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: Newtech135
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
     container_name: web-content-management-api
     build: .
+    restart: unless-stopped
+
+    depends_on:
+      - postgres
+
     ports:
       - "8090:8090"
-    restart: always
 
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/school_db
+      SPRING_DATASOURCE_USERNAME: postgres_user
+      SPRING_DATASOURCE_PASSWORD: Newtech135
 
     volumes:
       - /opt/projects/teach/upload/images:/opt/projects/teach/upload/images
+
+volumes:
+  postgres_data:
