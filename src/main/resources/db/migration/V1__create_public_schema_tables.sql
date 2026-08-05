@@ -2,6 +2,7 @@
 -- Hibernate sequence
 -- ============================================================
 CREATE SCHEMA IF NOT EXISTS public;
+CREATE SCHEMA IF NOT EXISTS school;
 CREATE SEQUENCE IF NOT EXISTS hibernate_sequence START 1 INCREMENT 1;
 
 -- ============================================================
