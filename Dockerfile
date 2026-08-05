@@ -20,6 +20,6 @@ ENV TZ=Asia/Phnom_Penh
 
 COPY --from=builder /app/build/libs/*.jar /app/app.jar
 
-EXPOSE 8082
+EXPOSE 8090
 
 ENTRYPOINT ["java","-Duser.timezone=Asia/Phnom_Penh","-jar","/app/app.jar"]
