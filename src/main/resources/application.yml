@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://localhost:2677/school_db
+    username: postgres
+    password: BBU@2026
 
   jpa:
     properties:
@@ -37,14 +37,14 @@ spring:
       path: /image/**
 
 server:
-  port: 8090
+  port: 30033
 
 post:
   free:
     app:
       jwtSecret: ebe8910a-08c0-11ed-861d-0242ac120002
-      jwtExpirationMs: 300000000
-      jwtRefreshExpirationMs: 86400000000
+      jwtExpirationMs: 300000
+      jwtRefreshExpirationMs: 86400000
 
 springdoc:
   swagger-ui:

@@ -19,8 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.dinsaren.springbootjwtapi.utils.helper.generateUsername;
-
 @Service
 @Transactional
 public class StudentServiceImpl implements StudentService {
@@ -60,6 +58,7 @@ public class StudentServiceImpl implements StudentService {
         // Create User
         User user = new User();
 
+        user.setUsername(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
@@ -70,25 +69,12 @@ public class StudentServiceImpl implements StudentService {
         user.setVerifyEmail("Y");
         user.setChangePassword("N");
 
-        // Temporary username
-        user.setUsername("TEMP");
-
         // Assign Role
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
 
         // Save user to get generated ID
-        user = userRepository.save(user);
-
-        // Generate Username
-        String username = generateUsername(
-                request.getFirstName(),
-                request.getLastName(),
-                user.getId());
-
-        user.setUsername(username);
-
         user = userRepository.save(user);
 
         // Create Student

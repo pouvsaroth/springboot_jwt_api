@@ -4,6 +4,7 @@ import com.dinsaren.springbootjwtapi.caches.SmsCache;
 import com.dinsaren.springbootjwtapi.constants.Constants;
 import com.dinsaren.springbootjwtapi.exception.TokenRefreshException;
 import com.dinsaren.springbootjwtapi.models.*;
+import com.dinsaren.springbootjwtapi.models.req.ChangePasswordReq;
 import com.dinsaren.springbootjwtapi.models.req.ForgetPasswordReq;
 import com.dinsaren.springbootjwtapi.models.req.RegisterInviteCodeReq;
 import com.dinsaren.springbootjwtapi.models.req.RegisterVerifyReq;
