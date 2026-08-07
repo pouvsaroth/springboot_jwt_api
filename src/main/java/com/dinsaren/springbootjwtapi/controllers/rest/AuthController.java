@@ -4,11 +4,9 @@ import com.dinsaren.springbootjwtapi.caches.SmsCache;
 import com.dinsaren.springbootjwtapi.constants.Constants;
 import com.dinsaren.springbootjwtapi.exception.TokenRefreshException;
 import com.dinsaren.springbootjwtapi.models.*;
-import com.dinsaren.springbootjwtapi.models.req.ChangePasswordReq;
 import com.dinsaren.springbootjwtapi.models.req.ForgetPasswordReq;
 import com.dinsaren.springbootjwtapi.models.req.RegisterInviteCodeReq;
 import com.dinsaren.springbootjwtapi.models.req.RegisterVerifyReq;
-import com.dinsaren.springbootjwtapi.models.res.UploadImageRes;
 import com.dinsaren.springbootjwtapi.payload.request.LogOutReq;
 import com.dinsaren.springbootjwtapi.payload.request.LoginReq;
 import com.dinsaren.springbootjwtapi.payload.request.RegisterReq;
@@ -403,25 +401,5 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "Upload profile image", description = "Upload an image file and get back the stored filename")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Image uploaded successfully"),
-            @ApiResponse(responseCode = "500", description = "Upload failed")
-    })
-    @SecurityRequirements
-    @PostMapping(value = "/image/upload", consumes = {"multipart/form-data"})
-    public ResponseEntity<Object> uploadFile(@RequestParam("File") MultipartFile file) {
-        log.info("Intercept upload file req {}", file.toString());
-        try {
-            UploadImageRes res = uploadFileService.uploadFile(file);
-            messageRes = new MessageRes();
-            messageRes.setMessageCreateSuccess(res);
-            return ResponseEntity.ok(messageRes);
-        } catch (Throwable e) {
-            log.error("Error while upload file {}", e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        } finally {
-            log.info("Final Response upload file {}", file.getOriginalFilename());
-        }
-    }
+
 }

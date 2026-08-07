@@ -1,11 +1,13 @@
 package com.dinsaren.springbootjwtapi.services;
 
 import com.dinsaren.springbootjwtapi.models.FileImageDetail;
-import com.dinsaren.springbootjwtapi.models.res.UploadImageRes;
+import com.dinsaren.springbootjwtapi.models.res.UploadFileRes;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface UploadFileService {
-    UploadImageRes uploadFile(MultipartFile files);
+
+    UploadFileRes uploadFile(MultipartFile file);
 
     FileImageDetail findImageByFileName(String fileName);
+
 }
