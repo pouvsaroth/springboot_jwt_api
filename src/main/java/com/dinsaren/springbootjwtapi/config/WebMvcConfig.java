@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         String path = uploadPath;
 
-        if (!path.endsWith("/")) {
+        if (!path.endsWith("/") && !path.endsWith("\\")) {
             path += "/";
         }
 

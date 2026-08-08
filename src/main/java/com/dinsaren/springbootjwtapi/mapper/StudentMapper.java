@@ -9,7 +9,7 @@ public class StudentMapper {
     private StudentMapper() {
     }
 
-    public static StudentRes toResponse(Student student) {
+    public static StudentRes toResponse(Student student,  String baseUrl) {
 
         User user = student.getUser();
 
@@ -31,6 +31,13 @@ public class StudentMapper {
         res.setPhone(student.getPhone());
         res.setAddress(student.getAddress());
         res.setPhoto(student.getPhoto());
+
+        if (student.getPhoto() != null &&
+                !student.getPhoto().isBlank()) {
+
+            res.setPhoto(student.getPhoto());
+        }
+
         res.setIsActive(student.getIsActive());
 
         // Audit

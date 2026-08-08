@@ -32,6 +32,11 @@ public class TeacherMapper {
         res.setPhone(teacher.getPhone());
         res.setAddress(teacher.getAddress());
         res.setPhoto(teacher.getPhoto());
+        if (teacher.getPhoto() != null &&
+                !teacher.getPhoto().isBlank()) {
+
+            res.setPhoto(teacher.getPhoto());
+        }
         res.setIsActive(teacher.getIsActive());
 
         // Audit

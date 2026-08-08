@@ -6,8 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface UploadFileService {
 
-    UploadFileRes uploadFile(MultipartFile file);
+    UploadFileRes uploadFile(
+            MultipartFile file,
+            String folder);
 
     FileImageDetail findImageByFileName(String fileName);
-
 }

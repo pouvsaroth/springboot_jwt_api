@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -25,14 +28,14 @@ public class UploadFileServiceImpl implements UploadFileService {
     @Value("${upload.server.path}")
     private String serverPath;
 
-    @Value("${server.base-url}")
+    @Value("${server.base_url}")
     private String baseUrl;
 
     @Autowired
     private FileImageDetailRepository fileImageDetailRepository;
 
     @Override
-    public UploadFileRes uploadFile(MultipartFile file) {
+    public UploadFileRes uploadFile(MultipartFile file, String folder) {
 
         UploadFileRes response = new UploadFileRes();
 
@@ -43,10 +46,13 @@ public class UploadFileServiceImpl implements UploadFileService {
             }
 
             // Create upload folder if it does not exist
-            File uploadDir = new File(serverPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
+            Path uploadDir = Paths.get(
+                    System.getProperty("user.dir"),
+                    serverPath,
+                    folder
+            ).toAbsolutePath();
+
+            Files.createDirectories(uploadDir);
 
             String originalFileName =
                     StringUtils.cleanPath(file.getOriginalFilename());
@@ -68,17 +74,16 @@ public class UploadFileServiceImpl implements UploadFileService {
             String fileName =
                     UUID.randomUUID().toString() + "." + extension;
 
-            File destination =
-                    new File(uploadDir, fileName);
+            Path destination = uploadDir.resolve(fileName);
 
-            file.transferTo(destination);
+            file.transferTo(destination.toFile());
 
             // Save metadata
             FileImageDetail detail = new FileImageDetail();
 
             detail.setFileName(fileName);
             detail.setOriginalFileName(getFileNoExtension(originalFileName));
-            detail.setFilePath(destination.getAbsolutePath());
+            detail.setFilePath(destination.toString());
             detail.setFileType(file.getContentType());
             detail.setFileSize(file.getSize());
             detail.setStatus(Constants.STATUS_ACTIVE);
@@ -88,7 +93,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             response.setFileName(fileName);
 
             response.setFileDownloadUri(
-                    baseUrl + "/image/" + fileName
+                    baseUrl + "/image/" + folder + "/" + fileName
             );
 
             response.setFileType(file.getContentType());

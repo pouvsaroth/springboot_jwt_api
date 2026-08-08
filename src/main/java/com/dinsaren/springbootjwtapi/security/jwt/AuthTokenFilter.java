@@ -29,9 +29,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-
         System.out.println("========== FILTER START ==========");
-
+        System.out.println("PATH = " + request.getServletPath());
         try {
 
             String jwt = parseJwt(request);
@@ -77,7 +76,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
 
+        String path = request.getServletPath();
+
+        return path.startsWith("/image/")
+                || path.startsWith("/upload/")
+                || path.startsWith("/favicon.ico");
+    }
     private String parseJwt(HttpServletRequest request) {
         System.out.println("USER FOUND");
         String headerAuth = request.getHeader("Authorization");

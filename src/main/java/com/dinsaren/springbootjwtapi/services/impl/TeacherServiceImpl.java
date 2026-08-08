@@ -77,7 +77,7 @@ public class TeacherServiceImpl implements TeacherService {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
-
+        user.setProfile(request.getPhoto());
         // Save User
         user = userRepository.save(user);
         // Create Teacher
@@ -125,6 +125,7 @@ public class TeacherServiceImpl implements TeacherService {
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhone());
+        user.setProfile(request.getPhoto());
 
         userRepository.save(user);
 

@@ -12,6 +12,7 @@ import com.dinsaren.springbootjwtapi.repository.StudentRepository;
 import com.dinsaren.springbootjwtapi.repository.UserRepository;
 import com.dinsaren.springbootjwtapi.services.StudentService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,8 @@ public class StudentServiceImpl implements StudentService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
+    @Value("${server.base_url}")
+    private String baseUrl;
     public StudentServiceImpl(StudentRepository studentRepository,
                               UserRepository userRepository,
                               RoleRepository roleRepository,
@@ -68,6 +70,8 @@ public class StudentServiceImpl implements StudentService {
         user.setStatus("ACT");
         user.setVerifyEmail("Y");
         user.setChangePassword("N");
+        user.setProfile(request.getPhoto());
+
 
         // Assign Role
         Set<Role> roles = new HashSet<>();
@@ -93,7 +97,7 @@ public class StudentServiceImpl implements StudentService {
         student = studentRepository.save(student);
 
         // Return Response using Mapper
-        return StudentMapper.toResponse(student);
+        return StudentMapper.toResponse(student,baseUrl);
     }
 
     @Override
@@ -122,6 +126,7 @@ public class StudentServiceImpl implements StudentService {
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhone());
+        user.setProfile(request.getPhoto());
 
         userRepository.save(user);
 
@@ -136,7 +141,7 @@ public class StudentServiceImpl implements StudentService {
 
         studentRepository.save(student);
 
-        return StudentMapper.toResponse(student);
+        return StudentMapper.toResponse(student,baseUrl);
     }
 
     @Override
@@ -144,14 +149,14 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found."));
 
-        return StudentMapper.toResponse(student);
+        return StudentMapper.toResponse(student,baseUrl);
     }
 
     @Override
     public List<StudentRes> findAll() {
         return studentRepository.findAll()
                 .stream()
-                .map(StudentMapper::toResponse)
+                .map(student -> StudentMapper.toResponse(student, baseUrl))
                 .toList();
     }
 

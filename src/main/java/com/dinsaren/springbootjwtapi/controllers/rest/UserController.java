@@ -1,5 +1,6 @@
 package com.dinsaren.springbootjwtapi.controllers.rest;
 
+import com.dinsaren.springbootjwtapi.constants.UploadFolder;
 import com.dinsaren.springbootjwtapi.models.User;
 import com.dinsaren.springbootjwtapi.models.req.ChangePasswordReq;
 import com.dinsaren.springbootjwtapi.models.res.UploadFileRes;
@@ -156,7 +157,7 @@ public class UserController {
             }
 
             UploadFileRes uploadResult =
-                    uploadFileService.uploadFile(file);
+                    uploadFileService.uploadFile(file, UploadFolder.PROFILE);
 
             // Update Teacher
             Optional<Teacher> teacher =
